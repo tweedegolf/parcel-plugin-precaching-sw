@@ -18,7 +18,8 @@
   "serviceworker": {
     "bypass": false,
     "allowed": ["js", "map", "html"],
-    "additional": ["/offline.html"],
+    "additional": [],
+    "offlineUrl": "/offline.html",
     "fileName": "sw.js",
     "outDir": "./"
   },

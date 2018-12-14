@@ -1,13 +1,5 @@
-const { writeFileSync, unlinkSync, existsSync } = require('fs');
+const { readFileSync, writeFileSync, unlinkSync, existsSync } = require('fs');
 const path = require('path');
-
-const getValue = function (obj, key) {
-  return key.split('.').reduce(function (o, x) {
-    return typeof o == 'undefined' || o === null ? o : o[x];
-  }, obj);
-};
-
-
 
 /**
  * Flatten the bundle structure to array of strings
@@ -34,9 +26,10 @@ module.exports = bundler => {
   bundler.on('bundled', async (bundle) => {
     const pkg = await bundle.entryAsset.getPackage();
     const swConfig = pkg['serviceworker'];
-    const dir = swConfig.outDir || path.resolve(__dirname, '../');
-    const file = swConfig.fileName || 'sw.js';
-    const swPath = path.resolve(dir, file);
+    const swOutDir = swConfig.outDir || path.resolve(__dirname, '../');
+    const fileName = swConfig.fileName || 'sw.js';
+    const offlineUrl = swConfig.offlineUrl || './offline.html';
+    const swPath = path.resolve(swOutDir, fileName);
 
     // console.log('service worker options', swConfig);
     if (swConfig.bypass === true) {
@@ -65,7 +58,21 @@ module.exports = bundler => {
     }).map(name => name.replace(outDir, '/assets'));
 
     assets.push(...swConfig.additional);
+    assets.push(offlineUrl);
     const cache = JSON.stringify(assets);
-    writeFileSync(swPath, cache);
+    const cacheName = `${pkg.name}-${bundle.entryAsset.hash.substr(0, 8)}`;
+
+    const template = readFileSync(path.resolve(
+      __dirname,
+      '../parcel-plugin-serviceworker/serviceworker.template.js'
+    ), 'utf8');
+
+    const sw = template
+      .replace('\'%{caches}\'', cache)
+      .replace('%{cacheName}', cacheName)
+      .replace('%{offlineUrl}', offlineUrl)
+      .replace(/"/g, '\'');
+
+    writeFileSync(swPath, sw);
   });
 };
