@@ -1,4 +1,4 @@
-const { writeFileSync } = require('fs');
+const { writeFileSync, unlinkSync, existsSync } = require('fs');
 const path = require('path');
 
 const getValue = function (obj, key) {
@@ -7,7 +7,6 @@ const getValue = function (obj, key) {
   }, obj);
 };
 
-const allowed = ['css', 'js', 'woff2', 'svg', 'ico', 'png', 'webmanifest'];
 
 
 /**
@@ -34,22 +33,39 @@ module.exports = bundler => {
   const { outDir } = bundler.options;
   bundler.on('bundled', async (bundle) => {
     const pkg = await bundle.entryAsset.getPackage();
+    const swConfig = pkg['serviceworker'];
+    const dir = swConfig.outDir || path.resolve(__dirname, '../');
+    const file = swConfig.fileName || 'sw.js';
+    const swPath = path.resolve(dir, file);
+
+    // console.log('service worker options', swConfig);
+    if (swConfig.bypass === true) {
+      if (existsSync(swPath)) {
+        unlinkSync(swPath);
+      }
+      return;
+    }
+
+    const allowed = swConfig.allowed || [
+      'css',
+      'js',
+      'woff2',
+      'svg',
+      'ico',
+      'png',
+      'webmanifest'
+    ];
+
     const assets = getAssets(bundle).filter((name) => {
       if (name.includes('/icon_')) {
         return false;
       }
-
       const ext = name.split('.').pop();
       return allowed.includes(ext);
     }).map(name => name.replace(outDir, '/assets'));
 
-    // assets.push('/offline.html');
-
+    assets.push(...swConfig.additional);
     const cache = JSON.stringify(assets);
-    const swConfig = pkg['serviceworker'];
-    console.log('service worker options', swConfig);
-
-    const p = path.resolve(swConfig.outDir, 'tgsw.js');
-    writeFileSync(p, cache);
+    writeFileSync(swPath, cache);
   });
 };

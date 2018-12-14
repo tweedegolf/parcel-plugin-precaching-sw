@@ -16,6 +16,10 @@
     "parcel-bundler": "^1.10.3"
   },
   "serviceworker": {
+    "bypass": false,
+    "allowed": ["js", "map", "html"],
+    "additional": ["/offline.html"],
+    "fileName": "sw.js",
     "outDir": "./"
   },
   "eslintConfig": {
