@@ -1,0 +1,49 @@
+{
+  "name": "test-serviceworker",
+  "private": false,
+  "scripts": {
+    "clean": "rm -rf .cache && rm -rf dist",
+    "start": "parcel index.html",
+    "help": "parcel help"
+  },
+  "dependencies": {
+    "eslint": "^5.10.0",
+    "parcel-plugin-serviceworker": "file:parcel-plugin-serviceworker"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "parcel": "^1.10.3",
+    "parcel-bundler": "^1.10.3"
+  },
+  "serviceworker": {
+    "outDir": "./"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es6": true,
+      "browser": true,
+      "node": true,
+      "mocha": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+      "indent": [
+        "error",
+        2
+      ],
+      "linebreak-style": [
+        "error",
+        "unix"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "semi": [
+        "error",
+        "always"
+      ]
+    }
+  }
+}
