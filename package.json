@@ -1,7 +1,28 @@
 {
-  "name": "parcel-plugin-serviceworker-precache",
-  "version": "0.0.2",
+  "name": "parcel-plugin-precaching-sw",
+  "description": "Parcel plugin that creates a precaching service worker",
+  "version": "0.0.1",
   "main": "./index.js",
+  "scripts": {
+    "example": "cd example && npm run start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://tgrep.nl/dvandermeer/tgsw"
+  },
+  "keywords": [
+    "precaching",
+    "serviceworker",
+    "parcel"
+  ],
+  "contributors": [{
+    "name": "Marlon Baeten",
+    "email": "marlon@tweedegolf.nl"
+    },{
+      "name": "Daniel van der Meer",
+      "email": "daniel@tweedegolf.nl"
+    }
+  ],
   "license": "MIT",
   "private": false
 }

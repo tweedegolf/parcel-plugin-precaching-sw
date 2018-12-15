@@ -7,7 +7,6 @@ const path = require('path');
  * @returns {*[]}
  */
 const getAssets = (bundle, result = []) => {
-  // console.log('BUNDLE NAME', bundle.name);
   result.push(bundle.name);
   if (bundle.entryAsset) {
     result.concat(
@@ -21,17 +20,15 @@ const getAssets = (bundle, result = []) => {
 };
 
 module.exports = bundler => {
-  // console.log('parcel options', bundler.options);
   const { outDir } = bundler.options;
   bundler.on('bundled', async (bundle) => {
     const pkg = await bundle.entryAsset.getPackage();
-    const swConfig = pkg['serviceworker'];
+    const swConfig = pkg['precachingSW'];
     const swOutDir = swConfig.outDir || path.resolve(__dirname, '../');
     const fileName = swConfig.fileName || 'sw.js';
     const offlineUrl = swConfig.offlineUrl || './offline.html';
     const swPath = path.resolve(swOutDir, fileName);
 
-    // console.log('service worker options', swConfig);
     if (swConfig.bypass === true) {
       if (existsSync(swPath)) {
         unlinkSync(swPath);
@@ -64,7 +61,7 @@ module.exports = bundler => {
 
     const template = readFileSync(path.resolve(
       __dirname,
-      './serviceworker.template.js'
+      './precaching-sw.template.js'
     ), 'utf8');
 
     const sw = template

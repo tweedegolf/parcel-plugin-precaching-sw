@@ -8,14 +8,14 @@
   },
   "dependencies": {
     "eslint": "^5.10.0",
-    "parcel-plugin-serviceworker": "file:.."
+    "parcel-plugin-precaching-serviceworker": "file:.."
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "parcel": "^1.10.3",
     "parcel-bundler": "^1.10.3"
   },
-  "serviceworker": {
+  "precachingSW": {
     "bypass": false,
     "allowed": [
       "js",
