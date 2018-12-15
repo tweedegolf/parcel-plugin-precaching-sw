@@ -1,19 +1,19 @@
 {
   "name": "test-serviceworker",
-  "private": false,
+  "description": "Simple example that shows how to use and configure the precaching serviceworker plugin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://tgrep.nl/dvandermeer/tgsw"
+  },
   "scripts": {
     "clean": "rm -rf .cache && rm -rf dist",
     "start": "parcel index.html",
     "help": "parcel help"
   },
-  "dependencies": {
-    "eslint": "^5.10.0",
-    "parcel-plugin-precaching-serviceworker": "file:.."
-  },
   "devDependencies": {
-    "babel-eslint": "^10.0.1",
     "parcel": "^1.10.3",
-    "parcel-bundler": "^1.10.3"
+    "parcel-plugin-precaching-sw": "file:.."
   },
   "precachingSW": {
     "bypass": false,
@@ -21,39 +21,12 @@
       "js",
       "css",
       "map",
+      "jpeg",
       "html"
     ],
     "additional": [],
     "offlineUrl": "/offline.html",
     "fileName": "sw.js",
     "outDir": "./"
-  },
-  "eslintConfig": {
-    "extends": "eslint:recommended",
-    "env": {
-      "es6": true,
-      "browser": true,
-      "node": true,
-      "mocha": true
-    },
-    "parser": "babel-eslint",
-    "rules": {
-      "indent": [
-        "error",
-        2
-      ],
-      "linebreak-style": [
-        "error",
-        "unix"
-      ],
-      "quotes": [
-        "error",
-        "single"
-      ],
-      "semi": [
-        "error",
-        "always"
-      ]
-    }
   }
 }

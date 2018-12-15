@@ -1,3 +1,10 @@
 body {
-  background-color: red;
+  background-image: url(./pexels-photo-255379.jpeg);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+h1 {
+  font-family: monospace;
+  font-size: 30px;
 }
