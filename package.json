@@ -5,7 +5,10 @@
   "main": "./index.js",
   "repository": {
     "type": "git",
-    "url": "https://tgrep.nl/dvandermeer/tgsw"
+    "url": "https://github.com/tweedegolf/parcel-plugin-precaching-sw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tweedegolf/parcel-plugin-precaching-sw/issues"
   },
   "keywords": [
     "parcel",
