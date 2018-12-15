@@ -42,3 +42,5 @@ In the package.json file you see that the plugin is added to the `devDependencie
 Also in the package.json file you see the `precachingSW` entry; just play around with the parameters to get a grip on how they work.
 
 The example project itself, and thus the project for which the plugin generates a precaching serverworker is fairly simple: it contains an index.html that embeds a stylesheet (app.css) and a javascript file (app.js). In the stylesheet a background image is applied to the body; because the jpeg extension is in the `allowed` array, you can see in the generated serviceworker file that the background image gets cached as well.
+
+Background image from: https://www.pexels.com/
