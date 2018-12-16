@@ -1,5 +1,5 @@
 .cache
 dist
 node_modules
-sw.js
-javascript-sw.js
+*sw.js
+output*.js

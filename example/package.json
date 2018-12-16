@@ -38,6 +38,14 @@
         "js",
         "map"
       ]
+    },
+    "app.css": {
+      "fileName": "css-sw.js",
+      "allowed": [
+        "css",
+        "jpeg",
+        "map"
+      ]
     }
   }
 }

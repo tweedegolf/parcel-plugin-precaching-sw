@@ -105,6 +105,18 @@ Please note that bundle specific settings will be merged with the generic settin
     "outDir": "./",
 ```
 
+## Use it in your project
+
+Run:
+
+`npm i -D parcel-plugin-precaching-sw`
+
+or:
+
+`yarn add -D parcel-plugin-precaching-sw`
+
+Then optionally add settings to your package.json file.
+
 ***
 
 Background image from: https://www.pexels.com/

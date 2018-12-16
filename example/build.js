@@ -32,4 +32,17 @@ const build = async () => {
   printSummary([b1, b2]);
 };
 
-build();
+const build2 = async () => {
+  const bundler = new Parcel(['app.css', 'app.js'], clientConfig);
+  bundler.bundle();
+  // const b = await bundler.bundle();
+  // printSummary([b]);
+};
+
+const arg = process.argv[2];
+
+if (arg === '1' || typeof arg === 'undefined') {
+  build();
+} else if (arg === '2') {
+  build2();
+}
