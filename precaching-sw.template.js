@@ -1,3 +1,4 @@
+const created = '%{created}';
 const caches = '%{caches}';
 const cacheName = '%{cacheName}';
 const offlineUrl = '%{offlineUrl}';

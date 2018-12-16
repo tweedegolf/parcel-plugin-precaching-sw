@@ -43,4 +43,46 @@ Also in the package.json file you see the `precachingSW` entry; just play around
 
 The example project itself, and thus the project for which the plugin generates a precaching serverworker is fairly simple: it contains an index.html that embeds a stylesheet (app.css) and a javascript file (app.js). In the stylesheet a background image is applied to the body; because the jpeg extension is in the `allowed` array, you can see in the generated serviceworker file that the background image gets cached as well.
 
+
+## Building the example using a Node script
+
+In some cases you need to create more than one single bundle, and all bundles may require different settings. Take a look at the `build.js` script inside the example folder. This script creates 2 bundlers by script. Each bundle can have its own configuration by adding an extra entry to the `precachingSW` object using the id of the entryAsset for key:
+
+```javascript
+  const bundlerHtml = new Parcel('index.html', clientConfig);
+```
+The value of `bundle.entryAsset.id` now is `index.html` and we use this for key in the `precachingSW` object in package.json:
+
+```json
+  "precachingSW": {
+
+    // generic settings
+
+    "bypass": false,
+    "allowed": [
+      "js",
+      "css",
+      "map",
+      "jpeg",
+      "html"
+    ],
+    "additional": [],
+    "offlineUrl": "/offline.html",
+    "fileName": "sw.js",
+    "outDir": "./",
+
+    // bundle specific settings
+
+    "index.html": {
+      "bypass": true
+    },
+    "app.js": {
+      "outDir": "./js"
+    }
+  }
+```
+
+
+
+
 Background image from: https://www.pexels.com/

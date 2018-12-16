@@ -4,7 +4,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://tgrep.nl/dvandermeer/tgsw"
+    "url": "https://github.com/tweedegolf/parcel-plugin-precaching-sw.git"
   },
   "scripts": {
     "clean": "rm -rf .cache && rm -rf dist",
@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "parcel": "^1.10.3",
+    "parcel-bundler": "^1.10.3",
     "parcel-plugin-precaching-sw": "file:.."
   },
   "precachingSW": {
@@ -27,6 +28,12 @@
     "additional": [],
     "offlineUrl": "/offline.html",
     "fileName": "sw.js",
-    "outDir": "./"
+    "outDir": "./",
+    "index.html": {
+      "bypass": true
+    },
+    "app.js": {
+      "outDir": "./js"
+    }
   }
 }
