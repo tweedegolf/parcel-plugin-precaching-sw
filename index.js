@@ -1,5 +1,57 @@
+/* eslint-disable no-console */
+
 const { readFileSync, writeFileSync, unlinkSync, existsSync } = require('fs');
 const path = require('path');
+
+const defaultConfig = {
+  'bypass': false,
+  'allowed': [
+    'css',
+    'js',
+    'woff2',
+    'svg',
+    'ico',
+    'png',
+    'webmanifest'
+  ],
+  'additional': [],
+  'offlineUrl': '/offline.html',
+  'fileName': 'sw.js',
+  'outDir': path.resolve(__dirname, '../'),
+};
+
+const getConfig = (pkg, bundleId) => {
+  const conf = pkg['precachingSW'] || {};
+
+  let {
+    bypass = defaultConfig.bypass,
+    allowed = defaultConfig.allowed,
+    additional = defaultConfig.additional,
+    outDir = defaultConfig.outDir,
+    fileName = defaultConfig.fileName,
+    offlineUrl = defaultConfig.offlineUrl,
+  } = conf;
+
+  const bundleConfig = conf[bundleId];
+  if (bundleConfig) {
+    ({
+      bypass = bypass,
+      allowed = allowed,
+      additional = additional,
+      outDir = outDir,
+      fileName = fileName,
+      offlineUrl = offlineUrl,
+    } = bundleConfig);
+  }
+
+  return {
+    bypass,
+    allowed,
+    additional,
+    offlineUrl,
+    path: path.resolve(outDir, fileName),
+  };
+};
 
 /**
  * Flatten the bundle structure to array of strings
@@ -30,47 +82,32 @@ module.exports = bundler => {
       console.error('ERROR', e);
       return;
     }
-    // console.log('ID', bundle.entryAsset.id);
     // console.log('PKG', pkg);
-    let swConfig = pkg['precachingSW'];
-    const bundleConfig = swConfig[bundle.entryAsset.id];
-    if (bundleConfig) {
-      swConfig = bundleConfig;
-    }
-    const swOutDir = swConfig.outDir || path.resolve(__dirname, '../');
-    const fileName = swConfig.fileName || 'sw.js';
-    const offlineUrl = swConfig.offlineUrl || './offline.html';
-    const swPath = path.resolve(swOutDir, fileName);
-    // console.log('CONFIG', swConfig);
+    const bundleId = bundle.entryAsset.id;
+    // console.log('ID', bundleId);
+    const config = getConfig(pkg, bundleId);
+    // console.log('CONFIG', config);
 
-    if (swConfig.bypass === true) {
-      if (existsSync(swPath)) {
-        unlinkSync(swPath);
+    if (config.bypass === true) {
+      if (existsSync(config.path)) {
+        unlinkSync(config.path);
       }
+      console.log(`Not generating a precaching serviceworker for "${bundleId}".`);
       return;
     }
 
-    const allowed = swConfig.allowed || [
-      'css',
-      'js',
-      'woff2',
-      'svg',
-      'ico',
-      'png',
-      'webmanifest'
-    ];
     const assets = getAssets(bundle).filter((name) => {
       if (name.includes('/icon_')) {
         return false;
       }
       const ext = name.split('.').pop();
-      return allowed.includes(ext);
+      return config.allowed.includes(ext);
     }).map(name => name.replace(outDir, '/assets'));
 
-    if (swConfig.additional && swConfig.additional.length > 0) {
-      assets.push(...swConfig.additional);
+    if (config.additional && config.additional.length > 0) {
+      assets.push(...config.additional);
     }
-    assets.push(offlineUrl);
+    assets.push(config.offlineUrl);
     const cache = JSON.stringify(assets);
     const cacheName = `${pkg.name}-${bundle.entryAsset.hash.substr(0, 8)}`;
 
@@ -83,9 +120,9 @@ module.exports = bundler => {
       .replace('%{created}', new Date())
       .replace('\'%{caches}\'', cache)
       .replace('%{cacheName}', cacheName)
-      .replace('%{offlineUrl}', offlineUrl)
+      .replace('%{offlineUrl}', config.offlineUrl)
       .replace(/"/g, '\'');
 
-    writeFileSync(swPath, sw);
+    writeFileSync(config.path, sw);
   });
 };

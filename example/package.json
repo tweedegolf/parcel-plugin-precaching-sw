@@ -1,5 +1,5 @@
 {
-  "name": "test-serviceworker",
+  "name": "example-parcel-plugin-precaching-serviceworker",
   "description": "Simple example that shows how to use and configure the precaching serviceworker plugin",
   "license": "MIT",
   "repository": {
@@ -33,7 +33,11 @@
       "bypass": true
     },
     "app.js": {
-      "outDir": "./js"
+      "fileName": "javascript-sw.js",
+      "allowed": [
+        "js",
+        "map"
+      ]
     }
   }
 }
