@@ -12,8 +12,8 @@
     "help": "parcel help"
   },
   "devDependencies": {
-    "parcel": "^1.10.3",
-    "parcel-bundler": "^1.10.3",
+    "parcel": "^1.12.3",
+    "parcel-bundler": "^1.12.3",
     "parcel-plugin-precaching-sw": "file:.."
   },
   "precachingSW": {

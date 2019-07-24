@@ -35,7 +35,7 @@ The plugin is configurable by adding a `precachingSW` entry to your package.json
 
 ## Example
 
-In the example folder you'll find a very basic example of how to use and configure this plugin. To run the example `cd` into the example folder and run `npm i`. After all depedencies are installed run `npm run start`. Now parcels bundles the example app and after bundling it generates a serviceworker file. Then the app starts at localhost:1234.
+In the example folder you'll find a very basic example of how to use and configure this plugin. To run the example `cd` into the example folder and run `npm i`. After all dependencies are installed run `npm run start`. Now parcels bundles the example app and after bundling it generates a serviceworker file. Then the app starts at localhost:1234.
 
 In the package.json file you see that the plugin is added to the `devDependencies`. We are using `file:..` here so the local version of the plugin will be installed; this is handy if you want to tinker a bit with the plugin code. In your real-life project it will look something like `^0.0.2`.
 
