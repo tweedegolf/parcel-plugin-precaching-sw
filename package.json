@@ -1,7 +1,7 @@
 {
-  "name": "parcel-plugin-precaching-sw",
+  "name": "@tweedegolf/parcel-plugin-precaching-sw",
   "description": "Parcel plugin that creates a precaching service worker",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "./index.js",
   "repository": {
     "type": "git",
@@ -58,5 +58,8 @@
         "always"
       ]
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
